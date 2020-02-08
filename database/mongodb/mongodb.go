@@ -8,14 +8,14 @@ import (
 
     "go.mongodb.org/mongo-driver/mongo"
     "go.mongodb.org/mongo-driver/mongo/options"
-		"go.mongodb.org/mongo-driver/mongo/readpref"
-		
-		"go-gin-cli/pkg/setting"
+    "go.mongodb.org/mongo-driver/mongo/readpref"
+    	
+    "go-gin-cli/pkg/setting"
 )
 
 var MongoClient *mongo.Client
 
-func init() {
+func Setup() {
     var err error
 
     mongoURI := fmt.Sprintf(setting.MongoSetting.Host)

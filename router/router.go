@@ -3,9 +3,9 @@ package router
 import (
     "github.com/gin-gonic/gin"
 
+    "go-gin-cli/middleware"
     "go-gin-cli/router/api"
     "go-gin-cli/router/api/v1"
-    "go-gin-cli/middleware"
 )
 
 func InitRouter() *gin.Engine {
