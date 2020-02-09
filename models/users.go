@@ -31,3 +31,15 @@ func (u *Users) GetUsersDetail() (users Users, err error) {
 
     return
 }
+
+/*  @desc 新增一筆users
+    @return err error
+*/
+func (u *Users) InsertOne() (err error) {
+    _, err = db.Engine.InsertOne(u)
+    if err != nil {
+        return
+    }
+
+    return
+}

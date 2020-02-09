@@ -8,10 +8,10 @@ import (
 )
 
 type Auth struct {
-    ID       int    `json:"id" xorm:"id"`
-    Account  string `json:"account" form:"account" xorm:"account"`
-    Password string `json:"password" form:"password" xorm:"password"`
-    Role     string `json:"role" form:"role" xorm:"role"`
+    ID       int    `json:"id" xorm:"pk 'id' autoincr"`
+    Account  string `json:"account" xorm:"account"`
+    Password string `json:"password" xorm:"password"`
+    Role     string `json:"role" xorm:"role"`
 }
 
 /*  @desc 是否存在此用戶, 並返回資料
@@ -37,6 +37,28 @@ func (a *Auth) CheckAuth(account, password string) (isExist bool, auth Auth, err
     return
 }
 
+/*  @desc 是否已有此帳號
+    @param account string
+    @return isExist bool
+    @return err error
+*/
+func (a *Auth) CheckAccount(account string) (isExist bool, err error) {
+    isExist = false
+
+    var auth Auth
+    has, err := db.Engine.Where("account = ?", account).Get(&auth)
+    if err != nil {
+        return
+    }
+
+    if has {
+        isExist = true
+        err = nil
+    }
+
+    return
+}
+
 /*  @desc 發放jwt token
     @param account string
     @param password string
@@ -49,5 +71,20 @@ func (a *Auth) IssueToken(id int, account string, role string) (token string, er
         log.Println(err)
         return
     }
+    return
+}
+
+
+/*  @desc 新增一筆auth
+    @return id int
+    @return err error
+*/
+func (a *Auth) InsertOne() (id int, err error) {
+    _, err = db.Engine.InsertOne(a)
+    if err != nil {
+        return
+    }
+    
+    id = a.ID
     return
 }

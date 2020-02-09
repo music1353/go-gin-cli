@@ -12,7 +12,8 @@ func InitRouter() *gin.Engine {
     r := gin.Default()
 
     apiBase := r.Group("/api")
-    {
+    {   
+        apiBase.POST("/signup", api.SignUpAuthApi)
         apiBase.POST("/login", api.LoginAuthApi)
     }
 
